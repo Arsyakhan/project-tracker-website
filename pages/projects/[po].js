@@ -38,6 +38,7 @@ export default function ProjectDetailPage() {
     try {
       await api.updateProject({
         poNumber: project.poNumber,
+        projectName: project.projectName,
         client: project.client,
         technology: project.technology,
         pic: project.pic,
@@ -78,7 +79,12 @@ export default function ProjectDetailPage() {
     <div className="flex flex-col gap-6 max-w-3xl">
       <div>
         <span className="text-xs font-data text-inkmute">{project.poNumber}</span>
-        <h1 className="font-display text-2xl font-semibold text-ink">{project.projectName}</h1>
+<input 
+  className="font-display text-2xl font-semibold text-ink bg-transparent border-b-2 border-transparent hover:border-line focus:border-blueprint outline-none w-full pb-1 transition-colors" 
+  value={project.projectName} 
+  onChange={(e) => update('projectName', e.target.value)} 
+  title="Klik untuk mengedit nama project"
+/>
       </div>
 
       <section className="bg-panel border border-line rounded-lg p-6 flex flex-col gap-4">
