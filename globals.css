@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+html, body {
+  background: #F2F5F6;
+  color: #152631;
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, .font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-data {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Signature element: pipeline-style stage gauge with checkpoint ticks */
+.gauge-track {
+  position: relative;
+  height: 10px;
+  border-radius: 2px;
+  background: #E3EAEC;
+  overflow: visible;
+}
+
+.gauge-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.gauge-tick {
+  position: absolute;
+  top: -3px;
+  width: 2px;
+  height: 16px;
+  background: #B8C4C8;
+}
+
+.gauge-tick.reached {
+  background: #123A57;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gauge-fill {
+    transition: none;
+  }
+}
