@@ -287,7 +287,7 @@ function updateProject_(payload) {
     const col = headers.indexOf(colName) + 1;
     if (col > 0) sheet.getRange(rowIndex, col).setValue(value);
   }
-
+  if (payload.projectName !== undefined) setCell('Project Name', payload.projectName);
   if (payload.client !== undefined) setCell('Client', payload.client);
   if (payload.technology !== undefined) setCell('Technology/Capacity', payload.technology);
   if (payload.pic !== undefined) setCell('PIC', payload.pic);
