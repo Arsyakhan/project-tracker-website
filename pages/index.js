@@ -24,7 +24,7 @@ export default function Dashboard() {
   if (error) {
     return (
       <div className="bg-panel border border-line rounded-lg p-6 text-rust">
-        Gagal memuat data: {error}. Pastikan NEXT_PUBLIC_API_URL sudah benar dan Apps Script sudah di-deploy.
+        Gagal memuat data: {error}.
       </div>
     );
   }
@@ -32,6 +32,11 @@ export default function Dashboard() {
   if (!projects) {
     return <div className="text-inkmute">Memuat data dari spreadsheet...</div>;
   }
+
+  // Membagi project ke dalam 3 kategori berdasarkan stageProgress
+  const preDeliveryProjects = projects.filter((p) => p.stageProgress < 90);
+  const deliveredProjects = projects.filter((p) => p.stageProgress >= 90 && p.stageProgress < 100);
+  const completedProjects = projects.filter((p) => p.stageProgress >= 100);
 
   return (
     <div className="flex flex-col gap-6">
@@ -44,35 +49,25 @@ export default function Dashboard() {
         <StatCard label="Completed" value={dashboard.completed} accent="#3F8361" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-1">
-          <StatusPie dashboard={dashboard} />
-        </div>
-        <div className="md:col-span-2">
-          <div className="bg-panel border border-line rounded-lg p-5 h-72 overflow-y-auto">
-            <span className="text-xs uppercase tracking-wide text-inkmute font-medium">
-              Project Perlu Perhatian (Priority Tinggi)
-            </span>
-            <ul className="mt-3 flex flex-col gap-3">
-              {projects
-                .filter((p) => p.priority === 'High' && p.stageProgress < 100)
-                .map((p) => (
-                  <li key={p.poNumber} className="text-sm">
-                    <span className="font-medium text-ink">{p.projectName}</span>{' '}
-                    <span className="text-inkmute">— {p.currentStage} ({p.stageProgress}%)</span>
-                  </li>
-                ))}
-              {projects.filter((p) => p.priority === 'High' && p.stageProgress < 100).length === 0 && (
-                <li className="text-sm text-inkmute">Tidak ada project prioritas tinggi yang aktif.</li>
-              )}
-            </ul>
-          </div>
-        </div>
+      <div className="w-full md:w-1/2 lg:w-1/3">
+        <StatusPie dashboard={dashboard} />
       </div>
 
-      <div className="flex flex-col gap-3">
-        <h2 className="font-display text-lg font-semibold text-ink">Semua Project</h2>
-        <ProjectTable projects={projects} />
+      <div className="flex flex-col gap-8 mt-4">
+        <div className="flex flex-col gap-3">
+          <h2 className="font-display text-lg font-semibold text-ink">A. Pre-Delivery Projects</h2>
+          <ProjectTable projects={preDeliveryProjects} />
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h2 className="font-display text-lg font-semibold text-ink">B. Delivered Projects</h2>
+          <ProjectTable projects={deliveredProjects} />
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <h2 className="font-display text-lg font-semibold text-ink">C. Completed Projects</h2>
+          <ProjectTable projects={completedProjects} />
+        </div>
       </div>
     </div>
   );
