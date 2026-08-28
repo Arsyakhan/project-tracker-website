@@ -5,7 +5,8 @@ import { api } from '../../lib/api';
 const emptyForm = {
   poNumber: '', projectName: '', client: '', technology: '', pic: '',
   currentStage: 'PO', status: 'In Progress', priority: 'Medium',
-  tanggalPO: '', tanggalDP: '', deadlineDelivery: '', targetFinishDate: '', remarks: ''
+  tanggalPO: '', tanggalDP: '', deadlineDelivery: '', targetFinishDate: '', 
+  remarks: '', deskripsiPesanan: '', spesifikasiTeknologi: ''
 };
 
 export default function NewProjectPage() {
@@ -85,9 +86,29 @@ export default function NewProjectPage() {
         <Row label="Remarks">
           <textarea className="input" rows={3} value={form.remarks} onChange={(e) => update('remarks', e.target.value)} />
         </Row>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-line pt-4 mt-2">
+          <Row label="Deskripsi Pesanan (Teknologi)">
+            <textarea 
+              className="input" 
+              rows={4} 
+              value={form.deskripsiPesanan} 
+              onChange={(e) => update('deskripsiPesanan', e.target.value)} 
+            />
+          </Row>
+          <Row label="Spesifikasi & Detail Teknologi">
+            <textarea 
+              className="input" 
+              rows={4} 
+              value={form.spesifikasiTeknologi} 
+              onChange={(e) => update('spesifikasiTeknologi', e.target.value)} 
+            />
+          </Row>
+        </div>
+
         <button
           disabled={saving}
-          className="mt-2 bg-blueprint hover:bg-blueprintdark text-white rounded-md py-2.5 font-medium disabled:opacity-60"
+          className="mt-4 bg-blueprint hover:bg-blueprintdark text-white rounded-md py-2.5 font-medium disabled:opacity-60"
         >
           {saving ? 'Menyimpan...' : 'Simpan Project'}
         </button>
