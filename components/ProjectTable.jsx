@@ -37,7 +37,14 @@ export default function ProjectTable({ projects }) {
               <td className="px-4 py-3 text-inkmute">{p.client}</td>
               <td className="px-4 py-3 text-inkmute">{p.pic}</td>
               <td className="px-4 py-3 text-inkmute">{p.currentStage}</td>
-              <td className="px-4 py-3"><StageGauge progress={p.stageProgress} compact showLabel={false} /></td>
+              <td className="px-4 py-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex-1">
+                    <StageGauge progress={p.stageProgress} compact showLabel={false} />
+                  </div>
+                  <span className="text-xs font-medium text-inkmute w-8 text-right">{p.stageProgress}%</span>
+                </div>
+              </td>
               <td className="px-4 py-3">
                 <span className="text-xs font-medium" style={{ color: PRIORITY_COLOR[p.priority] || '#5C7078' }}>
                   {p.priority}
