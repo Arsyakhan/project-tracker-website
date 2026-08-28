@@ -10,6 +10,7 @@ export default function ProjectDetailPage() {
   const [meta, setMeta] = useState(null);
   const [project, setProject] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [savedMsg, setSavedMsg] = useState('');
   const [error, setError] = useState(null);
 
@@ -61,6 +62,21 @@ export default function ProjectDetailPage() {
     }
   }
 
+  async function handleDelete() {
+    const confirmDelete = window.confirm(`Yakin ingin menghapus project ${project.projectName} (PO: ${project.poNumber})?`);
+    if (!confirmDelete) return;
+
+    setDeleting(true);
+    setError(null);
+    try {
+      await api.deleteProject({ poNumber: project.poNumber });
+      router.push('/'); // Pindah kembali ke dashboard setelah berhasil dihapus
+    } catch (err) {
+      setError(err.message);
+      setDeleting(false);
+    }
+  }
+
   async function updateChecklistItem(item, value) {
     const newItems = { ...project.checklist.items, [item]: value };
     setProject((p) => ({ ...p, checklist: { ...p.checklist, items: newItems } }));
@@ -79,12 +95,12 @@ export default function ProjectDetailPage() {
     <div className="flex flex-col gap-6 max-w-3xl">
       <div>
         <span className="text-xs font-data text-inkmute">{project.poNumber}</span>
-<input 
-  className="font-display text-2xl font-semibold text-ink bg-transparent border-b-2 border-transparent hover:border-line focus:border-blueprint outline-none w-full pb-1 transition-colors" 
-  value={project.projectName} 
-  onChange={(e) => update('projectName', e.target.value)} 
-  title="Klik untuk mengedit nama project"
-/>
+        <input 
+          className="font-display text-2xl font-semibold text-ink bg-transparent border-b-2 border-transparent hover:border-line focus:border-blueprint outline-none w-full pb-1 transition-colors" 
+          value={project.projectName} 
+          onChange={(e) => update('projectName', e.target.value)} 
+          title="Klik untuk mengedit nama project"
+        />
       </div>
 
       <section className="bg-panel border border-line rounded-lg p-6 flex flex-col gap-4">
@@ -136,11 +152,20 @@ export default function ProjectDetailPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={saveProject}
-            disabled={saving}
+            disabled={saving || deleting}
             className="bg-blueprint hover:bg-blueprintdark text-white rounded-md px-4 py-2 text-sm font-medium disabled:opacity-60"
           >
             {saving ? 'Menyimpan...' : 'Simpan Perubahan'}
           </button>
+          
+          <button
+            onClick={handleDelete}
+            disabled={saving || deleting}
+            className="bg-rust hover:bg-red-800 text-white rounded-md px-4 py-2 text-sm font-medium disabled:opacity-60"
+          >
+            {deleting ? 'Menghapus...' : 'Hapus Project'}
+          </button>
+
           {savedMsg && <span className="text-teal text-sm">{savedMsg}</span>}
         </div>
       </section>
