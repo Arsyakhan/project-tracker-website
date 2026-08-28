@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { api } from '../lib/api';
 import StatCard from '../components/StatCard';
 import StatusPie from '../components/StatusPie';
-import ProgressChart from '../components/ProgressChart'; // Komponen baru
-import Timeline from '../components/Timeline'; // Komponen baru
+import ProgressChart from '../components/ProgressChart';
+import Timeline from '../components/Timeline';
 import ProjectTable from '../components/ProjectTable';
 
 export default function Dashboard() {
@@ -35,6 +35,7 @@ export default function Dashboard() {
     return <div className="text-inkmute">Memuat data dari spreadsheet...</div>;
   }
 
+  // Membagi project ke dalam 3 kategori
   const preDeliveryProjects = projects.filter((p) => p.stageProgress < 90);
   const deliveredProjects = projects.filter((p) => p.stageProgress >= 90 && p.stageProgress < 100);
   const completedProjects = projects.filter((p) => p.stageProgress >= 100);
@@ -50,7 +51,7 @@ export default function Dashboard() {
         <StatCard label="Completed" value={dashboard.completed} accent="#3F8361" />
       </div>
 
-      {/* Layout 3 Kolom untuk Widget */}
+      {/* Layout 3 Kolom untuk Widget Chart & Timeline */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="col-span-1">
           <StatusPie dashboard={dashboard} />
@@ -63,15 +64,18 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Daftar Project yang Dibagi 3 Kategori */}
       <div className="flex flex-col gap-8 mt-4">
         <div className="flex flex-col gap-3">
           <h2 className="font-display text-lg font-semibold text-ink">A. Pre-Delivery Projects</h2>
           <ProjectTable projects={preDeliveryProjects} />
         </div>
+
         <div className="flex flex-col gap-3">
           <h2 className="font-display text-lg font-semibold text-ink">B. Delivered Projects</h2>
           <ProjectTable projects={deliveredProjects} />
         </div>
+
         <div className="flex flex-col gap-3">
           <h2 className="font-display text-lg font-semibold text-ink">C. Completed Projects</h2>
           <ProjectTable projects={completedProjects} />
