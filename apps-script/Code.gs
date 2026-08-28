@@ -77,6 +77,7 @@ function doPost(e) {
     if (action === 'addProject') data = addProject_(body.payload);
     else if (action === 'updateProject') data = updateProject_(body.payload);
     else if (action === 'updateChecklist') data = updateChecklist_(body.payload);
+    else if (action === 'deleteProject') data = deleteProject_(body.payload);
     else throw new Error('Unknown action: ' + action);
     return jsonOut_({ ok: true, data: data });
   } catch (err) {
@@ -357,4 +358,24 @@ function updateChecklist_(payload) {
   }
 
   return { poNumber: payload.poNumber, progress: progress };
+}
+function deleteProject_(payload) {
+  const poNumber = payload.poNumber;
+  if (!poNumber) throw new Error('PO Number tidak ditemukan');
+
+  // Hapus dari sheet Project Tracker
+  const projSheet = getSheet_(SHEET_PROJECTS);
+  const projFound = findRowByPO_(projSheet, poNumber);
+  if (projFound) {
+    projSheet.deleteRow(projFound.rowIndex);
+  }
+
+  // Hapus dari sheet Checklist
+  const checkSheet = getSheet_(SHEET_CHECKLIST);
+  const checkFound = findRowByPO_(checkSheet, poNumber);
+  if (checkFound) {
+    checkSheet.deleteRow(checkFound.rowIndex);
+  }
+
+  return { deleted: true, poNumber: poNumber };
 }
