@@ -47,6 +47,8 @@ export default function ProjectDetailPage() {
         status: project.status,
         priority: project.priority,
         remarks: project.remarks,
+        deskripsiPesanan: project.deskripsiPesanan,
+        spesifikasiTeknologi: project.spesifikasiTeknologi,
         tanggalPO: project.tanggalPO,
         tanggalDP: project.tanggalDP,
         deadlineDelivery: project.deadlineDelivery,
@@ -70,7 +72,7 @@ export default function ProjectDetailPage() {
     setError(null);
     try {
       await api.deleteProject({ poNumber: project.poNumber });
-      router.push('/'); // Pindah kembali ke dashboard setelah berhasil dihapus
+      router.push('/');
     } catch (err) {
       setError(err.message);
       setDeleting(false);
@@ -145,11 +147,31 @@ export default function ProjectDetailPage() {
             <input type="date" className="input" value={project.targetFinishDate || ''} onChange={(e) => update('targetFinishDate', e.target.value)} />
           </Row>
         </div>
+        
         <Row label="Remarks">
           <textarea className="input" rows={2} value={project.remarks || ''} onChange={(e) => update('remarks', e.target.value)} />
         </Row>
 
-        <div className="flex items-center gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-line pt-4 mt-2">
+          <Row label="Deskripsi Pesanan (Teknologi)">
+            <textarea 
+              className="input" 
+              rows={4} 
+              value={project.deskripsiPesanan || ''} 
+              onChange={(e) => update('deskripsiPesanan', e.target.value)} 
+            />
+          </Row>
+          <Row label="Spesifikasi & Detail Teknologi">
+            <textarea 
+              className="input" 
+              rows={4} 
+              value={project.spesifikasiTeknologi || ''} 
+              onChange={(e) => update('spesifikasiTeknologi', e.target.value)} 
+            />
+          </Row>
+        </div>
+
+        <div className="flex items-center gap-3 mt-2">
           <button
             onClick={saveProject}
             disabled={saving || deleting}
