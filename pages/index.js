@@ -45,10 +45,10 @@ export default function Dashboard() {
       <h1 className="font-display text-2xl font-semibold text-ink">Dashboard Progress</h1>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Total Project" value={dashboard.total} accent="#152631" />
-        <StatCard label="Pre-Delivery" value={dashboard.preDelivery} accent="#1C4E73" />
-        <StatCard label="Delivered" value={dashboard.delivered} accent="#C98A2B" />
-        <StatCard label="Completed" value={dashboard.completed} accent="#3F8361" />
+        <StatCard label="Total Project" value={dashboard.total} accent="#0C2D48" />
+        <StatCard label="Pre-Delivery" value={dashboard.preDelivery} accent="#0077B6" />
+        <StatCard label="Delivered" value={dashboard.delivered} accent="#009688" />
+        <StatCard label="Completed" value={dashboard.completed} accent="#4A7291" />
       </div>
 
       {/* Layout 3 Kolom untuk Widget Chart & Timeline */}
