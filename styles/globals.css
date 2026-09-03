@@ -5,8 +5,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 html, body {
-  background: #F2F5F6;
-  color: #152631;
+  background: #E8F3F7; /* Latar biru air muda */
+  color: #0C2D48; /* Teks navy pekat */
   font-family: 'Inter', sans-serif;
 }
 
@@ -23,7 +23,7 @@ h1, h2, h3, .font-display {
   position: relative;
   height: 10px;
   border-radius: 2px;
-  background: #E3EAEC;
+  background: #C6DDE6; /* Biru pucat agar senada dengan tema air */
   overflow: visible;
 }
 
@@ -38,11 +38,11 @@ h1, h2, h3, .font-display {
   top: -3px;
   width: 2px;
   height: 16px;
-  background: #B8C4C8;
+  background: #9BAEB8;
 }
 
 .gauge-tick.reached {
-  background: #123A57;
+  background: #0077B6; /* Aksen biru cerah */
 }
 
 @media (prefers-reduced-motion: reduce) {
