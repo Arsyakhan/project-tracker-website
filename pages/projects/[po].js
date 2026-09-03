@@ -79,11 +79,12 @@ export default function ProjectDetailPage() {
     }
   }
 
-  async function updateChecklistItem(item, value) {
-    const newItems = { ...project.checklist.items, [item]: value };
-    setProject((p) => ({ ...p, checklist: { ...p.checklist, items: newItems } }));
+  async function updateChecklistData(item, statusVal, linkVal) {
+    const newItems = { ...project.checklist.items, [item]: statusVal };
+    const newLinks = { ...project.checklist.links, [item]: linkVal };
+    setProject((p) => ({ ...p, checklist: { ...p.checklist, items: newItems, links: newLinks } }));
     try {
-      const result = await api.updateChecklist({ poNumber: project.poNumber, items: { [item]: value } });
+      const result = await api.updateChecklist({ poNumber: project.poNumber, items: { [item]: statusVal }, links: { [item]: linkVal } });
       setProject((p) => ({ ...p, engineeringDocProgress: result.progress, checklist: { ...p.checklist, progress: result.progress } }));
     } catch (err) {
       setError(err.message);
@@ -199,16 +200,25 @@ export default function ProjectDetailPage() {
             <span className="font-data text-sm text-blueprint font-medium">{project.checklist.progress}%</span>
           </div>
           <StageGauge progress={project.checklist.progress} showLabel={false} compact />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
+          <div className="grid grid-cols-1 gap-4 mt-2">
             {meta.checklistItems.map((item) => (
               <Row key={item} label={item}>
-                <select
-                  className="input"
-                  value={project.checklist.items[item] || 'Not Started'}
-                  onChange={(e) => updateChecklistItem(item, e.target.value)}
-                >
-                  {meta.checklistStatuses.map((s) => <option key={s} value={s}>{s}</option>)}
-                </select>
+                <div className="flex gap-3">
+                  <select
+                    className="input w-1/3"
+                    value={project.checklist.items[item] || 'Not Started'}
+                    onChange={(e) => updateChecklistData(item, e.target.value, project.checklist.links?.[item] || '')}
+                  >
+                    {meta.checklistStatuses.map((s) => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                  <input
+                    type="url"
+                    placeholder="URL Dokumen / Drive Link..."
+                    className="input w-2/3"
+                    value={project.checklist.links?.[item] || ''}
+                    onChange={(e) => updateChecklistData(item, project.checklist.items[item], e.target.value)}
+                  />
+                </div>
               </Row>
             ))}
           </div>
