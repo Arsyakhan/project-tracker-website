@@ -12,6 +12,7 @@ export default function App({ Component, pageProps }) {
           <nav className="flex gap-5 text-sm">
             <Link href="/" className="text-inkmute hover:text-ink">Dashboard</Link>
             <Link href="/projects" className="text-inkmute hover:text-ink">Semua Project</Link>
+            <Link href="/engineering-docs" className="text-inkmute hover:text-ink font-medium">Engineering Docs</Link>
             <Link href="/projects/new" className="text-blueprint font-medium hover:underline">+ Project Baru</Link>
           </nav>
         </div>
