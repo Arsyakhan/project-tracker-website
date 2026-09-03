@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { api } from '../lib/api';
 
 export default function EngineeringDocs() {
@@ -98,7 +99,11 @@ export default function EngineeringDocs() {
             {allDocs.map((doc, idx) => (
               <tr key={idx} className="border-b border-line last:border-0 hover:bg-canvas/60">
                 <td className="px-4 py-3 font-data text-inkmute">{doc.poNumber}</td>
-                <td className="px-4 py-3 font-medium text-ink">{doc.projectName}</td>
+                <td className="px-4 py-3 font-medium">
+                  <Link href={`/projects/${encodeURIComponent(doc.poNumber)}`} className="text-blueprint hover:underline">
+                    {doc.projectName}
+                  </Link>
+                </td>
                 <td className="px-4 py-3 text-ink">{doc.docName}</td>
                 <td className="px-4 py-3">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
